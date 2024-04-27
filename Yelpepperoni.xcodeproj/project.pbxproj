@@ -15,6 +15,7 @@
 /* Begin PBXFileReference section */
 		5639A5762BDC807800FD2661 /* Common */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Common; sourceTree = "<group>"; };
 		563F96BA2BDC82D700365AD8 /* Client */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Client; sourceTree = "<group>"; };
+		563F96BE2BDCAE5300365AD8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		56AECCAD2BDC552700DBB567 /* Yelpepperoni.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yelpepperoni.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		56AECCB22BDC552700DBB567 /* Yelpepperoni.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Yelpepperoni.swift; sourceTree = "<group>"; };
 		56AECCB42BDC552800DBB567 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -65,6 +66,7 @@
 		56AECCAF2BDC552700DBB567 /* Yelpepperoni */ = {
 			isa = PBXGroup;
 			children = (
+				563F96BE2BDCAE5300365AD8 /* Info.plist */,
 				56AECCB22BDC552700DBB567 /* Yelpepperoni.swift */,
 				56AECCB42BDC552800DBB567 /* Assets.xcassets */,
 			);
@@ -280,6 +282,7 @@
 				DEVELOPMENT_TEAM = 25MTNC334J;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Yelpepperoni/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -309,6 +312,7 @@
 				DEVELOPMENT_TEAM = 25MTNC334J;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Yelpepperoni/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

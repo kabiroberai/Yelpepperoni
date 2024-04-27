@@ -15,7 +15,7 @@ struct ClientToken {
     static let shared = APIClient()
 
     private init() {
-        base = URL(string: "http://Kabirs-M3.local:8001")!
+        base = URL(string: "https://ypr.ober.ai:8080")!
     }
 
     private func makeRequest(
@@ -25,6 +25,7 @@ struct ClientToken {
     ) async throws -> (Data, URLResponse) {
         let url = base.appending(path: endpoint)
         var request = URLRequest(url: url)
+        request.setValue(APIKey.value, forHTTPHeaderField: APIKey.header)
         if authenticated {
             guard let token = authManager.token else {
                 throw StringError("Not logged in")

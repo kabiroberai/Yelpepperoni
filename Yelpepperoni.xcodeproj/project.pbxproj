@@ -7,18 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		56AECCB12BDC552700DBB567 /* YelpepperoniApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AECCB02BDC552700DBB567 /* YelpepperoniApp.swift */; };
-		56AECCB32BDC552700DBB567 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AECCB22BDC552700DBB567 /* ContentView.swift */; };
+		563F96BD2BDC834100365AD8 /* Client in Frameworks */ = {isa = PBXBuildFile; productRef = 563F96BC2BDC834100365AD8 /* Client */; };
+		56AECCB32BDC552700DBB567 /* Yelpepperoni.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AECCB22BDC552700DBB567 /* Yelpepperoni.swift */; };
 		56AECCB52BDC552800DBB567 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 56AECCB42BDC552800DBB567 /* Assets.xcassets */; };
-		56AECCB82BDC552800DBB567 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 56AECCB72BDC552800DBB567 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5639A5762BDC807800FD2661 /* Common */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Common; sourceTree = "<group>"; };
+		563F96BA2BDC82D700365AD8 /* Client */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Client; sourceTree = "<group>"; };
 		56AECCAD2BDC552700DBB567 /* Yelpepperoni.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yelpepperoni.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		56AECCB02BDC552700DBB567 /* YelpepperoniApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YelpepperoniApp.swift; sourceTree = "<group>"; };
-		56AECCB22BDC552700DBB567 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		56AECCB22BDC552700DBB567 /* Yelpepperoni.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Yelpepperoni.swift; sourceTree = "<group>"; };
 		56AECCB42BDC552800DBB567 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		56AECCB72BDC552800DBB567 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		56D80B072BDC6E170085253B /* Server */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Server; sourceTree = "<group>"; };
+		56D80B082BDC7FEF0085253B /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,17 +27,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				563F96BD2BDC834100365AD8 /* Client in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		563F96BB2BDC834100365AD8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		56AECCA42BDC552700DBB567 = {
 			isa = PBXGroup;
 			children = (
+				56D80B082BDC7FEF0085253B /* .gitignore */,
+				5639A5762BDC807800FD2661 /* Common */,
+				56D80B072BDC6E170085253B /* Server */,
+				563F96BA2BDC82D700365AD8 /* Client */,
 				56AECCAF2BDC552700DBB567 /* Yelpepperoni */,
 				56AECCAE2BDC552700DBB567 /* Products */,
+				563F96BB2BDC834100365AD8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -51,20 +65,10 @@
 		56AECCAF2BDC552700DBB567 /* Yelpepperoni */ = {
 			isa = PBXGroup;
 			children = (
-				56AECCB02BDC552700DBB567 /* YelpepperoniApp.swift */,
-				56AECCB22BDC552700DBB567 /* ContentView.swift */,
+				56AECCB22BDC552700DBB567 /* Yelpepperoni.swift */,
 				56AECCB42BDC552800DBB567 /* Assets.xcassets */,
-				56AECCB62BDC552800DBB567 /* Preview Content */,
 			);
 			path = Yelpepperoni;
-			sourceTree = "<group>";
-		};
-		56AECCB62BDC552800DBB567 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				56AECCB72BDC552800DBB567 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +87,9 @@
 			dependencies = (
 			);
 			name = Yelpepperoni;
+			packageProductDependencies = (
+				563F96BC2BDC834100365AD8 /* Client */,
+			);
 			productName = Yelpepperoni;
 			productReference = 56AECCAD2BDC552700DBB567 /* Yelpepperoni.app */;
 			productType = "com.apple.product-type.application";
@@ -125,7 +132,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				56AECCB82BDC552800DBB567 /* Preview Assets.xcassets in Resources */,
 				56AECCB52BDC552800DBB567 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,8 +143,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				56AECCB32BDC552700DBB567 /* ContentView.swift in Sources */,
-				56AECCB12BDC552700DBB567 /* YelpepperoniApp.swift in Sources */,
+				56AECCB32BDC552700DBB567 /* Yelpepperoni.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,7 +276,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Yelpepperoni/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 25MTNC334J;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -300,7 +305,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Yelpepperoni/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 25MTNC334J;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -344,6 +349,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		563F96BC2BDC834100365AD8 /* Client */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Client;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 56AECCA52BDC552700DBB567 /* Project object */;
 }

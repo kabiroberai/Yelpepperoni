@@ -4,7 +4,7 @@ import SwiftUI
 struct YelpepperoniApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView()
         }
     }
 }

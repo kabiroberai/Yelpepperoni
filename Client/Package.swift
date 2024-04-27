@@ -13,9 +13,17 @@ let package = Package(
             targets: ["Client"]
         ),
     ],
+    dependencies: [
+        .package(path: "../Common"),
+        .package(url: "https://github.com/kishikawakatsumi/KeychainAccess.git", from: "4.2.0"),
+    ],
     targets: [
         .target(
-            name: "Client"
+            name: "Client",
+            dependencies: [
+                "Common",
+                .product(name: "KeychainAccess", package: "KeychainAccess"),
+            ]
         ),
         .testTarget(
             name: "ClientTests",

@@ -5,7 +5,7 @@ import JWTKit
 
 // configures your application
 public func configure(_ app: Application) async throws {
-    app.http.server.configuration.port = 8001
+    app.http.server.configuration.address = .hostname("0.0.0.0", port: 8001)
 
     app.passwords.use(.bcrypt)
 

@@ -46,7 +46,7 @@ final class AttestationKey: Model, @unchecked Sendable {
 }
 
 struct SessionToken: Content, Authenticatable, JWTPayload {
-    static let expirationTime: TimeInterval = 60 * 15
+    static let expirationTime: TimeInterval = 86400 * 30
 
     var expiration: ExpirationClaim
     var userID: UUID

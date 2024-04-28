@@ -51,7 +51,7 @@ func addAuthedRoutes(_ routes: any RoutesBuilder) throws {
 
     routes.on(.POST, "detectPizza", body: .collect(maxSize: "5mb")) { req async throws in
         guard req.isAttested else {
-            throw Abort(.unauthorized, reason: "This request requires attestation")
+            throw Abort(.unauthorized, reason: "Attestation failed")
         }
         guard let imageBuffer = req.body.data else {
             throw Abort(.badRequest, reason: "Missing image")

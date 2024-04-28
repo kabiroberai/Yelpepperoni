@@ -1,7 +1,7 @@
 import Foundation
 import OpenAI
 
-public final class GPTPizzaDetector {
+@MainActor public final class GPTPizzaDetector {
     public static let shared = GPTPizzaDetector()
 
     private let api: OpenAI

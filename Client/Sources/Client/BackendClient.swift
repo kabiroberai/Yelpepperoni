@@ -44,8 +44,9 @@ struct ClientToken {
             request.setValue("Bearer \(token)", forHTTPHeaderField: "authorization")
         }
         if level == .asserted {
-            let assertion = try await AttestationManager.shared.generateAssertion()
-            assertion.apply(to: &request)
+            if let assertion = try? await AttestationManager.shared.generateAssertion() {
+                assertion.apply(to: &request)
+            }
         }
         try configure(&request)
         let (data, response) = try await urlSession.data(for: request, delegate: trustManager)

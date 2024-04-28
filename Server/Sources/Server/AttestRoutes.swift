@@ -50,11 +50,17 @@ func addAttestationRoutes(_ routes: any RoutesBuilder) throws {
         }
 
         let attestRequest = AppAttest.AttestationRequest(attestation: attestation, keyID: keyID)
-        let result = try AppAttest.verifyAttestation(
-            challenge: challenge,
-            request: attestRequest,
-            appID: appID
-        )
+
+        let result: AppAttest.AttestationResult
+        do {
+            result = try AppAttest.verifyAttestation(
+                challenge: challenge,
+                request: attestRequest,
+                appID: appID
+            )
+        } catch {
+            throw Abort(.badRequest, reason: "Attestation failed")
+        }
 
         let key = AttestationKey(
             keyID: request.keyID,
@@ -98,13 +104,18 @@ struct AttestationMiddleware: AsyncMiddleware {
             clientData: challenge,
             challenge: challenge
         )
-        _ = try AppAttest.verifyAssertion(
-            challenge: challenge,
-            request: assertionRequest,
-            previousResult: nil,
-            publicKey: publicKey,
-            appID: appID
-        )
+
+        do {
+            _ = try AppAttest.verifyAssertion(
+                challenge: challenge,
+                request: assertionRequest,
+                previousResult: nil,
+                publicKey: publicKey,
+                appID: appID
+            )
+        } catch {
+            throw Abort(.unauthorized, reason: "Attestation failed")
+        }
     }
 
     func respond(to request: Request, chainingTo next: any AsyncResponder) async throws -> Response {

@@ -48,7 +48,11 @@ struct ClientToken {
             assertion.apply(to: &request)
         }
         try configure(&request)
-        return try await urlSession.data(for: request, delegate: trustManager)
+        let (data, response) = try await urlSession.data(for: request, delegate: trustManager)
+        if let error = try? decoder.decode(ErrorResponse.self, from: data), error.error {
+            throw StringError(error.reason)
+        }
+        return (data, response)
     }
 
     func createAccount(
@@ -100,14 +104,10 @@ struct ClientToken {
             keyID: keyID,
             attestation: attestation.base64EncodedString()
         )
-        let (_, response) = try await makeRequest(to: "attestKey") {
+        _ = try await makeRequest(to: "attestKey") {
             $0.httpMethod = "PUT"
             $0.setValue("application/json", forHTTPHeaderField: "content-type")
             $0.httpBody = try encoder.encode(body)
-        }
-        guard let httpResponse = response as? HTTPURLResponse,
-              200..<300 ~= httpResponse.statusCode else {
-            throw StringError("Bad response: \(response)")
         }
     }
 
@@ -118,6 +118,11 @@ struct ClientToken {
         }
         return try decoder.decode(Bool.self, from: data)
     }
+}
+
+private struct ErrorResponse: Codable {
+    var error: Bool
+    var reason: String
 }
 
 private let letsEncryptRoot = """

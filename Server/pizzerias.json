@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "name": "My Pizza",
+    "address": "123 Pizza St",
+    "rating": 4.5,
+    "photos": [
+      {
+        "filename": "foo.png",
+        "description": "abc",
+        "url": "assets/pizzeria1.jpeg"
+      },
+      {
+        "filename": "../foo2.txt",
+        "url": "assets/Image.plist",
+        "description": "abc"
+      }
+    ]
+  }
+]

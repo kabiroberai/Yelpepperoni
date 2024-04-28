@@ -4,6 +4,7 @@ import Common
 import PizzaDetection
 
 extension ClientTokenResponse: Content {}
+extension Pizzeria: Content {}
 
 func addRoutes(_ routes: any RoutesBuilder) throws {
     routes.put("create") { req async throws in
@@ -41,12 +42,12 @@ func addAuthedRoutes(_ routes: any RoutesBuilder) throws {
     try addAttestationRoutes(routes)
 
     routes.get { req async throws in
-        return "It works!"
-    }
-
-    routes.get("hello") { req async throws in
         let user = try await req.user()
         return "Hello, \(user.username)"
+    }
+
+    routes.get("pizzerias") { req async throws in
+        req.fileio.streamFile(at: "pizzerias.json")
     }
 
     routes.on(.POST, "detectPizza", body: .collect(maxSize: "5mb")) { req async throws in

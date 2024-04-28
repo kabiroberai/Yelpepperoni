@@ -13,20 +13,25 @@ struct ClientToken {
     }
 
     private let base: URL
-    private let urlSession = URLSession.shared
+    private let urlSession: URLSession
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
     private let authManager = AuthManager.shared
-    private let trustManager: TrustManager
+    private var trustManager: TrustManager?
 
     static let shared = APIClient()
 
     private init() {
-        base = URL(string: "https://ypr.ober.ai:8080")!
-        trustManager = TrustManager(
-            hostname: "ypr.ober.ai",
-            certificate: Data(base64Encoded: letsEncryptRoot.replacing("\n", with: ""))!
-        )
+        urlSession = URLSession(configuration: .ephemeral)
+        let customEndpoint = UserDefaults.standard.string(forKey: "YPRStagingEndpoint")
+        let endpoint = customEndpoint ?? "https://ypr.ober.ai:8080"
+        base = URL(string: endpoint)!
+        if customEndpoint == nil {
+            trustManager = TrustManager(
+                hostname: "ypr.ober.ai",
+                certificate: Data(base64Encoded: letsEncryptRoot.replacing("\n", with: ""))!
+            )
+        }
     }
 
     private func makeRequest(
@@ -118,6 +123,23 @@ struct ClientToken {
             $0.httpBody = jpeg
         }
         return try decoder.decode(Bool.self, from: data)
+    }
+
+    func getPizzerias() async throws -> [Pizzeria] {
+        let (data, _) = try await makeRequest(to: "pizzerias") {
+            $0.httpMethod = "GET"
+        }
+        return try decoder.decode([Pizzeria].self, from: data)
+    }
+
+    func downloadPizzeriaPhoto(_ photo: Pizzeria.Photo, to destination: URL) async throws {
+        guard let url = URL(string: photo.url, relativeTo: base) else {
+            throw StringError("Bad photo URL")
+        }
+        let (downloaded, _) = try await urlSession.download(from: url)
+
+        try? FileManager.default.removeItem(at: destination)
+        try FileManager.default.moveItem(at: downloaded, to: destination)
     }
 }
 

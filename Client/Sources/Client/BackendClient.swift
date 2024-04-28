@@ -133,9 +133,7 @@ struct ClientToken {
     }
 
     func downloadPizzeriaPhoto(_ photo: Pizzeria.Photo, to destination: URL) async throws {
-        guard let url = URL(string: photo.url, relativeTo: base) else {
-            throw StringError("Bad photo URL")
-        }
+        let url = base.appending(components: "images", photo.id)
         let (downloaded, _) = try await urlSession.download(from: url)
 
         try? FileManager.default.removeItem(at: destination)

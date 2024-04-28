@@ -2,6 +2,7 @@ import Vapor
 import Fluent
 import Common
 import PizzaDetection
+import NIOCore
 
 extension ClientTokenResponse: Content {}
 extension Pizzeria: Content {}
@@ -39,6 +40,8 @@ func addRoutes(_ routes: any RoutesBuilder) throws {
 }
 
 func addAuthedRoutes(_ routes: any RoutesBuilder) throws {
+    let store = try PizzeriaStore()
+
     try addAttestationRoutes(routes)
 
     routes.get { req async throws in
@@ -47,7 +50,30 @@ func addAuthedRoutes(_ routes: any RoutesBuilder) throws {
     }
 
     routes.get("pizzerias") { req async throws in
-        req.fileio.streamFile(at: "pizzerias.json")
+        await store.pizzerias
+    }
+
+    routes.put("pizzerias") { req async throws in
+        var pizzeria = try req.content.decode(Pizzeria.self)
+        let id = UUID().uuidString
+        pizzeria.id = id
+        // ensure that photo IDs are valid UUID strings
+        guard pizzeria.photos.allSatisfy({ UUID($0.id) != nil }) else {
+            throw Abort(.badRequest)
+        }
+        try await store.add(pizzeria: pizzeria)
+        return id
+    }
+
+    routes.on(.PUT, "images", body: .stream) { req async throws in
+        let id = UUID().uuidString
+        let fd = try NIOFileHandle(path: "Data/public/images/\(id)", mode: .write, flags: .allowFileCreation())
+        defer { try? fd.close() }
+        let io = NonBlockingFileIO(threadPool: req.application.threadPool)
+        for try await chunk in req.body {
+            try await io.write(fileHandle: fd, buffer: chunk)
+        }
+        return id
     }
 
     routes.on(.POST, "detectPizza", body: .collect(maxSize: "5mb")) { req async throws in
@@ -72,5 +98,23 @@ extension Request {
             throw Abort(.unauthorized)
         }
         return user
+    }
+}
+
+actor PizzeriaStore {
+    private let url: URL
+    private let encoder = JSONEncoder()
+    var pizzerias: [Pizzeria]
+
+    init() throws {
+        url = URL(filePath: "Data/pizzerias.json")
+        let data = try Data(contentsOf: url)
+        pizzerias = try JSONDecoder().decode([Pizzeria].self, from: data)
+    }
+
+    func add(pizzeria: Pizzeria) throws {
+        pizzerias.append(pizzeria)
+        let data = try encoder.encode(pizzerias)
+        try data.write(to: url)
     }
 }

@@ -49,25 +49,25 @@ public struct AttestKeyRequest: Codable, Sendable {
 }
 
 public struct Pizzeria: Codable, Sendable, Identifiable {
-    public struct Photo: Codable, Sendable, Hashable {
+    public struct Photo: Codable, Sendable, Identifiable {
+        public var id: String
         public var filename: String
         public var description: String
-        public var url: String
 
-        public init(filename: String, description: String, url: String) {
+        public init(id: String, filename: String, description: String) {
+            self.id = id
             self.filename = filename
             self.description = description
-            self.url = url
         }
     }
 
-    public var id: String
+    public var id: String?
     public var name: String
     public var address: String
     public var rating: Double // out of 5
     public var photos: [Photo]
 
-    public init(id: String, name: String, address: String, rating: Double, photos: [Photo]) {
+    public init(id: String?, name: String, address: String, rating: Double, photos: [Photo]) {
         self.id = id
         self.name = name
         self.address = address

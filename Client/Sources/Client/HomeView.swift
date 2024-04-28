@@ -87,9 +87,9 @@ import Common
                 rating: 4.5,
                 photos: [
                     Pizzeria.Photo(
+                        id: "abc",
                         filename: "foo.png",
-                        description: "abc",
-                        url: "https://www.alfaforni.com/wp-content/uploads/2022/10/20220928_142615-scaled.jpg"
+                        description: "abc"
                     )
                 ]
             ),
@@ -100,9 +100,9 @@ import Common
                 rating: 4.5,
                 photos: [
                     Pizzeria.Photo(
+                        id: "def",
                         filename: "foo.png",
-                        description: "abc",
-                        url: "https://www.alfaforni.com/wp-content/uploads/2022/10/20220928_142615-scaled.jpg"
+                        description: "abc"
                     )
                 ]
             )

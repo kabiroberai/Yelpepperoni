@@ -26,7 +26,7 @@ import Common
                         )
 
                     TabView {
-                        ForEach(pizzeria.photos, id: \.self) {
+                        ForEach(pizzeria.photos, id: \.id) {
                             PhotoView(photo: $0)
                         }
                     }
@@ -48,9 +48,9 @@ import Common
             rating: 4.5,
             photos: [
                 Pizzeria.Photo(
+                    id: "abc",
                     filename: "foo.png",
-                    description: "abc",
-                    url: "https://www.alfaforni.com/wp-content/uploads/2022/10/20220928_142615-scaled.jpg"
+                    description: "abc"
                 )
             ]
         ))

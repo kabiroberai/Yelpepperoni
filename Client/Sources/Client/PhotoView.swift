@@ -6,7 +6,7 @@ import Common
 
     var body: some View {
         _PhotoView(photo: photo)
-            .id(photo)
+            .id(photo.id)
     }
 }
 

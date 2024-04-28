@@ -32,7 +32,7 @@ struct KeychainAuthStore: AuthStore {
 }
 
 @MainActor @Observable final class AuthManager {
-    static let shared = AuthManager(store: DefaultsAuthStore())
+    static let shared = AuthManager(store: KeychainAuthStore())
 
     private let store: any AuthStore
 

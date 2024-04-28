@@ -1,6 +1,7 @@
 import Vapor
 import Fluent
 import Common
+import PizzaDetection
 
 extension ClientTokenResponse: Content {}
 
@@ -37,6 +38,8 @@ func addRoutes(_ routes: any RoutesBuilder) throws {
 }
 
 func addAuthedRoutes(_ routes: any RoutesBuilder) throws {
+    try addAttestationRoutes(routes)
+
     routes.get { req async throws in
         return "It works!"
     }
@@ -44,6 +47,17 @@ func addAuthedRoutes(_ routes: any RoutesBuilder) throws {
     routes.get("hello") { req async throws in
         let user = try await req.user()
         return "Hello, \(user.username)"
+    }
+
+    routes.on(.POST, "detectPizza", body: .collect(maxSize: "5mb")) { req async throws in
+        guard req.isAttested else {
+            throw Abort(.unauthorized, reason: "This request requires attestation")
+        }
+        guard let imageBuffer = req.body.data else {
+            throw Abort(.badRequest, reason: "Missing image")
+        }
+        let bytes = imageBuffer.withUnsafeReadableBytes { Data($0) }
+        return try await GPTPizzaDetector.shared.detectPizza(image: bytes)
     }
 }
 

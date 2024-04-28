@@ -2,6 +2,7 @@ import SwiftUI
 import PhotosUI
 import UIKit
 import PizzaDetection
+import Common
 
 @MainActor struct NotPizzaView: View {
     @State private var selecting = false
@@ -130,6 +131,12 @@ private struct JPEGData: Transferable {
     static var transferRepresentation: some TransferRepresentation {
         DataRepresentation(importedContentType: .jpeg) {
             JPEGData(data: $0)
+        }
+        DataRepresentation(importedContentType: .png) {
+            guard let data = UIImage(data: $0)?.jpegData(compressionQuality: 0.8) else {
+                throw StringError("Bad image")
+            }
+            return JPEGData(data: data)
         }
     }
 }

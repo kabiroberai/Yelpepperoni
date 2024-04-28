@@ -6,6 +6,12 @@ struct ClientToken {
 }
 
 @MainActor final class APIClient {
+    enum AuthLevel {
+        case none
+        case authenticated
+        case asserted
+    }
+
     private let base: URL
     private let urlSession = URLSession.shared
     private let encoder = JSONEncoder()
@@ -25,17 +31,21 @@ struct ClientToken {
 
     private func makeRequest(
         to endpoint: String,
-        authenticated: Bool = true,
+        level: AuthLevel = .authenticated,
         configure: (inout URLRequest) throws -> Void
     ) async throws -> (Data, URLResponse) {
         let url = base.appending(path: endpoint)
         var request = URLRequest(url: url)
         request.setValue(APIKey.value, forHTTPHeaderField: APIKey.header)
-        if authenticated {
+        if level != .none {
             guard let token = authManager.token else {
                 throw StringError("Not logged in")
             }
             request.setValue("Bearer \(token)", forHTTPHeaderField: "authorization")
+        }
+        if level == .asserted {
+            let assertion = try await AttestationManager.shared.generateAssertion()
+            assertion.apply(to: &request)
         }
         try configure(&request)
         return try await urlSession.data(for: request, delegate: trustManager)
@@ -46,7 +56,7 @@ struct ClientToken {
         password: String
     ) async throws -> ClientToken {
         let body = CreateRequest(username: username, password: password)
-        let (data, _) = try await makeRequest(to: "create", authenticated: false) {
+        let (data, _) = try await makeRequest(to: "create", level: .none) {
             $0.httpMethod = "PUT"
             $0.setValue("application/json", forHTTPHeaderField: "content-type")
             $0.httpBody = try encoder.encode(body)
@@ -60,13 +70,53 @@ struct ClientToken {
         password: String
     ) async throws -> ClientToken {
         let body = LoginRequest(username: username, password: password)
-        let (data, _) = try await makeRequest(to: "login", authenticated: false) {
+        let (data, _) = try await makeRequest(to: "login", level: .none) {
             $0.httpMethod = "POST"
             $0.setValue("application/json", forHTTPHeaderField: "content-type")
             $0.httpBody = try encoder.encode(body)
         }
         let decoded = try decoder.decode(ClientTokenResponse.self, from: data)
         return ClientToken(value: decoded.token)
+    }
+
+    func getChallenge() async throws -> (id: String, data: Data) {
+        let (data, _) = try await makeRequest(to: "challenge") {
+            $0.httpMethod = "GET"
+        }
+        let decoded = try decoder.decode(ChallengeResponse.self, from: data)
+        guard let data = Data(base64Encoded: decoded.data) else {
+            throw StringError("Invalid challenge base64")
+        }
+        return (decoded.id, data)
+    }
+
+    func attestKey(
+        challengeID: String,
+        keyID: String,
+        attestation: Data
+    ) async throws {
+        let body = AttestKeyRequest(
+            challengeID: challengeID,
+            keyID: keyID,
+            attestation: attestation.base64EncodedString()
+        )
+        let (_, response) = try await makeRequest(to: "attestKey") {
+            $0.httpMethod = "PUT"
+            $0.setValue("application/json", forHTTPHeaderField: "content-type")
+            $0.httpBody = try encoder.encode(body)
+        }
+        guard let httpResponse = response as? HTTPURLResponse,
+              200..<300 ~= httpResponse.statusCode else {
+            throw StringError("Bad response: \(response)")
+        }
+    }
+
+    func detectPizza(jpeg: Data) async throws -> Bool {
+        let (data, _) = try await makeRequest(to: "detectPizza", level: .asserted) {
+            $0.httpMethod = "POST"
+            $0.httpBody = jpeg
+        }
+        return try decoder.decode(Bool.self, from: data)
     }
 }
 

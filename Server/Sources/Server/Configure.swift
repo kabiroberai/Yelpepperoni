@@ -30,6 +30,7 @@ public func configure(_ app: Application) async throws {
     try await app.autoMigrate()
 
     app.middleware.use(SecretMiddleware())
+    app.middleware.use(AttestationMiddleware())
     try addRoutes(app)
 }
 

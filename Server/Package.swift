@@ -12,6 +12,7 @@ let package = Package(
         .package(url: "https://github.com/vapor/fluent.git", from: "4.0.0"),
         .package(url: "https://github.com/vapor/fluent-sqlite-driver.git", from: "4.0.0"),
         .package(url: "https://github.com/vapor/jwt.git", from: "4.0.0"),
+        .package(url: "https://github.com/iansampson/AppAttest.git", revision: "f4fc1ea12c712d6833905d9c11c73c1601ae4001"),
         .package(path: "../Common"),
     ],
     targets: [
@@ -23,6 +24,8 @@ let package = Package(
                 .product(name: "FluentSQLiteDriver", package: "fluent-sqlite-driver"),
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "JWT", package: "jwt"),
+                .product(name: "AppAttest", package: "AppAttest"),
+                .product(name: "PizzaDetection", package: "Common"),
             ],
             swiftSettings: swiftSettings
         ),

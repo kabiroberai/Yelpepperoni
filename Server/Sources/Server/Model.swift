@@ -24,6 +24,27 @@ final class User: Model, @unchecked Sendable {
     }
 }
 
+final class AttestationKey: Model, @unchecked Sendable {
+    static let schema = "attestation_keys"
+
+    @ID(key: .id)
+    var id: UUID?
+
+    @Field(key: "keyid")
+    var keyID: String
+
+    @Field(key: "pubkey")
+    var publicKey: Data
+
+    init() {}
+
+    init(id: UUID? = nil, keyID: String, publicKey: Data) {
+        self.id = id
+        self.keyID = keyID
+        self.publicKey = publicKey
+    }
+}
+
 struct SessionToken: Content, Authenticatable, JWTPayload {
     static let expirationTime: TimeInterval = 60 * 15
 
@@ -58,6 +79,20 @@ struct CreateUser: AsyncMigration {
     func revert(on database: Database) async throws {}
 }
 
+struct CreateAttestationKey: AsyncMigration {
+    func prepare(on database: any Database) async throws {
+        try await database.schema("attestation_keys")
+            .id()
+            .field("keyid", .string)
+            .unique(on: "keyid")
+            .field("pubkey", .data)
+            .create()
+    }
+
+    func revert(on database: any Database) async throws {}
+}
+
 func configureMigrations(_ app: Application) {
     app.migrations.add(CreateUser())
+    app.migrations.add(CreateAttestationKey())
 }

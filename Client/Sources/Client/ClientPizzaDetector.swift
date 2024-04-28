@@ -1,7 +1,7 @@
 import PizzaDetection
 import Foundation
 
-typealias PizzaDetector = GPTPizzaDetector
+typealias PizzaDetector = SecurePizzaDetector
 
 final class SecurePizzaDetector {
     static let shared = SecurePizzaDetector()
@@ -9,6 +9,6 @@ final class SecurePizzaDetector {
     private init() {}
 
     func detectPizza(image: Data) async throws -> Bool {
-        false
+        try await APIClient.shared.detectPizza(jpeg: image)
     }
 }

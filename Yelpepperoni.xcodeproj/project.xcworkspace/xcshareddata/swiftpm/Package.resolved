@@ -1,5 +1,5 @@
 {
-  "originHash" : "08090dfdd16ef007bb687eed2213d7a92c59656845b1cf2cddcc55f97e2cfc52",
+  "originHash" : "11c6b11768bdc35500468ded1378ccbc30788b0807afabf1026f0e8a16bd2dc4",
   "pins" : [
     {
       "identity" : "async-http-client",
@@ -89,6 +89,15 @@
       "state" : {
         "revision" : "12ee56f25bd3fc4c2d09c2aa16e69de61dc786e8",
         "version" : "4.6.0"
+      }
+    },
+    {
+      "identity" : "openai",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/MacPaw/OpenAI.git",
+      "state" : {
+        "revision" : "99593869a02555e456865dd7f742e7a5add24e06",
+        "version" : "0.2.8"
       }
     },
     {

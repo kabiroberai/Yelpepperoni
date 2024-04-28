@@ -4,7 +4,8 @@ import PackageDescription
 let package = Package(
     name: "Server",
     platforms: [
-       .macOS(.v13)
+        .iOS(.v17),
+        .macOS(.v14),
     ],
     dependencies: [
         .package(url: "https://github.com/vapor/vapor.git", from: "4.92.4"),

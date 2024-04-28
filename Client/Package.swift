@@ -21,7 +21,8 @@ let package = Package(
         .target(
             name: "Client",
             dependencies: [
-                "Common",
+                .product(name: "Common", package: "Common"),
+                .product(name: "PizzaDetection", package: "Common"),
                 .product(name: "KeychainAccess", package: "KeychainAccess"),
             ]
         ),

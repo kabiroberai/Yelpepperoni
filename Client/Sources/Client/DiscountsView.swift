@@ -42,6 +42,9 @@ import Common
         guard case .notStarted = phase else { return }
         phase = .loading
 
+        // NB: security flaws aside, this is NOT following IAP best-practices.
+        // Read the docs (and/or talk to Josh/RevenueCat) for IAP advice.
+
         Task {
             for await result in StoreKit.Transaction.updates {
                 Task {

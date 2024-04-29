@@ -75,7 +75,7 @@ import Common
             phase = .notPurchased
         case .unverified(_, let error):
             throw StringError("verification failed: \(error)")
-        default:
+        case .verified:
             phase = .purchased
         }
     }

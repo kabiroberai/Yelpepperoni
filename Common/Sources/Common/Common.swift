@@ -1,3 +1,5 @@
+import Foundation
+
 public struct CreateRequest: Codable, Sendable {
     public var username: String
     public var password: String
@@ -86,6 +88,10 @@ public struct Discount: Codable, Sendable, Identifiable {
         self.title = title
         self.code = code
     }
+}
+
+public protocol PizzaDetector {
+    func detectPizza(image: Data) async throws -> Bool
 }
 
 public enum APIKey {

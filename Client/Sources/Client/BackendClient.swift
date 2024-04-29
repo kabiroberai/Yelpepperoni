@@ -117,14 +117,6 @@ struct ClientToken {
         }
     }
 
-    func detectPizza(jpeg: Data) async throws -> Bool {
-        let (data, _) = try await makeRequest(to: "detectPizza", level: .asserted) {
-            $0.httpMethod = "POST"
-            $0.httpBody = jpeg
-        }
-        return try decoder.decode(Bool.self, from: data)
-    }
-
     func getPizzerias() async throws -> [Pizzeria] {
         let (data, _) = try await makeRequest(to: "pizzerias") {
             $0.httpMethod = "GET"
@@ -152,6 +144,16 @@ struct ClientToken {
             $0.httpMethod = "POST"
             $0.httpBody = Data(receipt.utf8)
         }
+    }
+}
+
+extension APIClient: PizzaDetector {
+    func detectPizza(image: Data) async throws -> Bool {
+        let (data, _) = try await makeRequest(to: "detectPizza", level: .asserted) {
+            $0.httpMethod = "POST"
+            $0.httpBody = image
+        }
+        return try decoder.decode(Bool.self, from: data)
     }
 }
 

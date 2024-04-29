@@ -77,7 +77,7 @@ func addAuthedRoutes(_ routes: any RoutesBuilder) throws {
         return id
     }
 
-    routes.on(.POST, "detectPizza", body: .collect(maxSize: "5mb")) { req async throws in
+    routes.on(.POST, "detectPizza", body: .collect(maxSize: "15mb")) { req async throws in
         guard req.isAttested else {
             throw Abort(.unauthorized, reason: "Attestation failed")
         }

@@ -33,6 +33,7 @@ let package = Package(
             name: "PizzaDetection",
             dependencies: [
                 .product(name: "OpenAI", package: "OpenAI"),
+                "Common",
             ]
         ),
     ]

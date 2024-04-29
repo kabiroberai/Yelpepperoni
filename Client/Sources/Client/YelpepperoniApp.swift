@@ -4,7 +4,11 @@ import SwiftUI
 struct YelpepperoniApp: App {
     var body: some Scene {
         WindowGroup {
-            MainView()
+            if AuthManager.shared.isLoggedIn {
+                LoggedInView()
+            } else {
+                LoginView()
+            }
         }
     }
 }

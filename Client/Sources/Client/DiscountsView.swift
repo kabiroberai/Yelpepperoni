@@ -39,8 +39,6 @@ import Common
     var phase = Phase.notStarted
 
     func onAppear() {
-//        hook()
-
         guard case .notStarted = phase else { return }
         phase = .loading
 

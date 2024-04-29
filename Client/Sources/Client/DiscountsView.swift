@@ -51,19 +51,17 @@ import Common
                     guard case let .verified(transaction) = result else { return }
                     try await APIClient.shared.unlockPro(receipt: result.jwsRepresentation)
                     await transaction.finish()
+                    do {
+                        try await updateStatus()
+                    } catch {
+                        phase = .failure(error)
+                    }
                 }
             }
         }
 
         Task {
-            do {
-                try await updateStatus()
-                for await _ in StoreKit.Transaction.updates {
-                    try await updateStatus()
-                }
-            } catch {
-                phase = .failure(error)
-            }
+            try await updateStatus()
         }
     }
 

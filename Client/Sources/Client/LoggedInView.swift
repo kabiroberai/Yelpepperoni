@@ -8,6 +8,11 @@ import SwiftUI
                     Label("Home", systemImage: "house.fill")
                 }
 
+            DiscountsView()
+                .tabItem {
+                    Label("Discounts", systemImage: "tag.fill")
+                }
+
             NotPizzaView()
                 .tabItem {
                     Label("Not Pizza", systemImage: "camera.viewfinder")

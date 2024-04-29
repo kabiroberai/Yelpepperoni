@@ -15,12 +15,16 @@ final class User: Model, @unchecked Sendable {
     @Field(key: "password")
     var password: Data // bcrypt hash
 
+    @Field(key: "isPro")
+    var isPro: Date?
+
     init() {}
 
-    init(id: UUID? = nil, username: String, password: Data) {
+    init(id: UUID? = nil, username: String, password: Data, isPro: Date? = nil) {
         self.id = id
         self.username = username
         self.password = password
+        self.isPro = isPro
     }
 }
 
@@ -92,7 +96,18 @@ struct CreateAttestationKey: AsyncMigration {
     func revert(on database: any Database) async throws {}
 }
 
+struct AddPro: AsyncMigration {
+    func prepare(on database: any Database) async throws {
+        try await database.schema("users")
+            .field("isPro", .datetime)
+            .update()
+    }
+
+    func revert(on database: any Database) async throws {}
+}
+
 func configureMigrations(_ app: Application) {
     app.migrations.add(CreateUser())
     app.migrations.add(CreateAttestationKey())
+    app.migrations.add(AddPro())
 }

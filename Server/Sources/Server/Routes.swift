@@ -6,6 +6,7 @@ import NIOCore
 
 extension ClientTokenResponse: Content {}
 extension Pizzeria: Content {}
+extension Discount: Content {}
 
 func addRoutes(_ routes: any RoutesBuilder) throws {
     routes.put("create") { req async throws in
@@ -86,6 +87,36 @@ func addAuthedRoutes(_ routes: any RoutesBuilder) throws {
         let bytes = imageBuffer.withUnsafeReadableBytes { Data($0) }
         return try await GPTPizzaDetector.shared.detectPizza(image: bytes)
     }
+
+    routes.post("unlockPro") { req async throws in
+        guard let buffer = req.body.data else {
+            throw Abort(.badRequest, reason: "Missing receipt")
+        }
+        let jws = buffer.withUnsafeReadableBytes { String(decoding: $0, as: UTF8.self) }
+        do {
+            try await ReceiptValidator.validateReceipt(jws)
+        } catch {
+            throw Abort(.badRequest, reason: "Invalid receipt")
+        }
+        let user = try await req.user()
+        user.isPro = Date()
+        try await user.update(on: req.db)
+        return Response(status: .accepted)
+    }
+
+    routes.get("discounts") { req async throws in
+        guard try await req.user().isPro != nil else {
+            throw Abort(.unauthorized)
+        }
+        return Discount.all
+    }
+}
+
+extension Discount {
+    static let all: [Discount] = [
+        Discount(id: "1", title: "50% off ALL pizzas!", code: "50-OFF"),
+        Discount(id: "2", title: "20% off pineapples", code: "20-OFF"),
+    ]
 }
 
 extension Request {

@@ -8,3 +8,4 @@ DerivedData/
 .netrc
 Server/Data
 !*.gitkeep
+Private

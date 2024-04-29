@@ -139,6 +139,20 @@ struct ClientToken {
         try? FileManager.default.removeItem(at: destination)
         try FileManager.default.moveItem(at: downloaded, to: destination)
     }
+
+    func getDiscounts() async throws -> [Discount] {
+        let (data, _) = try await makeRequest(to: "discounts") {
+            $0.httpMethod = "GET"
+        }
+        return try decoder.decode([Discount].self, from: data)
+    }
+
+    func unlockPro(receipt: String) async throws {
+        _ = try await makeRequest(to: "unlockPro") {
+            $0.httpMethod = "POST"
+            $0.httpBody = Data(receipt.utf8)
+        }
+    }
 }
 
 private struct ErrorResponse: Codable {

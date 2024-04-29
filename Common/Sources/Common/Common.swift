@@ -76,6 +76,18 @@ public struct Pizzeria: Codable, Sendable, Identifiable {
     }
 }
 
+public struct Discount: Codable, Sendable, Identifiable {
+    public let id: String
+    public let title: String
+    public let code: String
+
+    public init(id: String, title: String, code: String) {
+        self.id = id
+        self.title = title
+        self.code = code
+    }
+}
+
 public enum APIKey {
     public static let header = "X-YPR-KEY"
 

@@ -74,9 +74,7 @@ import Common
         switch await product.currentEntitlement {
         case nil:
             phase = .notPurchased
-        case .unverified(_, let error):
-            throw StringError("verification failed: \(error)")
-        case .verified:
+        case .unverified, .verified:
             phase = .purchased
         }
     }

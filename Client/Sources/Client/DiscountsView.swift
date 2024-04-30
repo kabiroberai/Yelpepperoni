@@ -51,21 +51,23 @@ import Common
                     guard case let .verified(transaction) = result else { return }
                     try await APIClient.shared.unlockPro(receipt: result.jwsRepresentation)
                     await transaction.finish()
-                    do {
-                        try await updateStatus()
-                    } catch {
-                        phase = .failure(error)
-                    }
+                    await updateStatus()
                 }
             }
         }
 
-        Task {
-            try await updateStatus()
+        Task { await updateStatus() }
+    }
+
+    private func updateStatus() async {
+        do {
+            try await _updateStatus()
+        } catch {
+            phase = .failure(error)
         }
     }
 
-    private func updateStatus() async throws {
+    private func _updateStatus() async throws {
         let products = try await Product.products(for: ["com.kabiroberai.Yelpepperoni.pro"])
         guard let product = products.first else {
             throw StringError("Product not found")

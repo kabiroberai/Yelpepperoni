@@ -17,7 +17,7 @@ struct ClientToken {
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
     private let authManager = AuthManager.shared
-    private var trustManager: TrustManager?
+    private let trustManager: TrustManager
 
     static let shared = APIClient()
 
@@ -26,12 +26,10 @@ struct ClientToken {
         let customEndpoint = UserDefaults.standard.string(forKey: "YPRStagingEndpoint")
         let endpoint = customEndpoint ?? "https://ypr.ober.ai:8080"
         base = URL(string: endpoint)!
-        if customEndpoint == nil {
-            trustManager = TrustManager(
-                hostname: "ypr.ober.ai",
-                certificate: Data(base64Encoded: letsEncryptRoot.replacing("\n", with: ""))!
-            )
-        }
+        trustManager = TrustManager(
+            hostname: "ypr.ober.ai",
+            certificate: Data(base64Encoded: letsEncryptRoot.replacing("\n", with: ""))!
+        )
     }
 
     private func makeRequest(

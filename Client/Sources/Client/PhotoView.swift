@@ -71,19 +71,8 @@ import Common
 
         // NB: a better solution is to use a UUID as the filename
         let destination = photosDirectory.appending(path: photo.filename)
-        guard destination.isContained(in: photosDirectory) else {
-            throw StringError("Detected path traversal")
-        }
 
         try await APIClient.shared.downloadPizzeriaPhoto(photo, to: destination)
         return destination
-    }
-}
-
-extension URL {
-    func isContained(in parent: URL) -> Bool {
-        let sanitizedParent = URL(filePath: parent.path(), directoryHint: .isDirectory).standardized
-        let sanitizedPath   = URL(filePath: path().replacingOccurrences(of: "//", with: "/")).standardized
-        return sanitizedPath.absoluteString.hasPrefix(sanitizedParent.absoluteString)
     }
 }

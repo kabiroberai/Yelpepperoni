@@ -88,26 +88,7 @@ func addAuthedRoutes(_ routes: any RoutesBuilder) throws {
         return try await GPTPizzaDetector.shared.detectPizza(image: bytes)
     }
 
-    routes.post("unlockPro") { req async throws in
-        guard let buffer = req.body.data else {
-            throw Abort(.badRequest, reason: "Missing receipt")
-        }
-        let jws = buffer.withUnsafeReadableBytes { String(decoding: $0, as: UTF8.self) }
-        do {
-            try await ReceiptValidator.validateReceipt(jws)
-        } catch {
-            throw Abort(.badRequest, reason: "Invalid receipt")
-        }
-        let user = try await req.user()
-        user.isPro = Date()
-        try await user.update(on: req.db)
-        return Response(status: .accepted)
-    }
-
     routes.get("discounts") { req async throws in
-        guard try await req.user().isPro != nil else {
-            throw Abort(.unauthorized)
-        }
         return Discount.all
     }
 }

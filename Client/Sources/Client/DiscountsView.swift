@@ -49,7 +49,6 @@ import Common
             for await result in StoreKit.Transaction.updates {
                 Task {
                     guard case let .verified(transaction) = result else { return }
-                    try await APIClient.shared.unlockPro(receipt: result.jwsRepresentation)
                     await transaction.finish()
                     await updateStatus()
                 }

@@ -97,6 +97,13 @@ struct ClientToken {
         }
         return try decoder.decode([Discount].self, from: data)
     }
+
+    func unlockPro(receipt: String) async throws {
+        _ = try await makeRequest(to: "unlockPro") {
+            $0.httpMethod = "POST"
+            $0.httpBody = Data(receipt.utf8)
+        }
+    }
 }
 
 private struct ErrorResponse: Codable {

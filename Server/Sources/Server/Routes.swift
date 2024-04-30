@@ -43,6 +43,8 @@ func addRoutes(_ routes: any RoutesBuilder) throws {
 func addAuthedRoutes(_ routes: any RoutesBuilder) throws {
     let store = try PizzeriaStore()
 
+    try addAttestationRoutes(routes)
+
     routes.get { req async throws in
         let user = try await req.user()
         return "Hello, \(user.username)"
@@ -73,6 +75,17 @@ func addAuthedRoutes(_ routes: any RoutesBuilder) throws {
             try await io.write(fileHandle: fd, buffer: chunk)
         }
         return id
+    }
+
+    routes.on(.POST, "detectPizza", body: .collect(maxSize: "15mb")) { req async throws in
+        guard req.isAttested else {
+            throw Abort(.unauthorized, reason: "Attestation failed")
+        }
+        guard let imageBuffer = req.body.data else {
+            throw Abort(.badRequest, reason: "Missing image")
+        }
+        let bytes = imageBuffer.withUnsafeReadableBytes { Data($0) }
+        return try await GPTPizzaDetector.shared.detectPizza(image: bytes)
     }
 
     routes.get("discounts") { req async throws in

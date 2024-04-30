@@ -117,7 +117,7 @@ import Common
 
     private func detect() async {
         do {
-            let verdict = try await GPTPizzaDetector.shared.detectPizza(image: jpegData)
+            let verdict = try await APIClient.shared.detectPizza(image: jpegData)
             phase = .detected(verdict)
         } catch {
             phase = .error("\(error)")

@@ -28,28 +28,6 @@ public struct ClientTokenResponse: Codable, Sendable {
     }
 }
 
-public struct ChallengeResponse: Codable, Sendable {
-    public let id: String
-    public let data: String // base64
-
-    public init(id: String, data: String) {
-        self.id = id
-        self.data = data
-    }
-}
-
-public struct AttestKeyRequest: Codable, Sendable {
-    public let challengeID: String
-    public let keyID: String // base64
-    public let attestation: String // base64
-
-    public init(challengeID: String, keyID: String, attestation: String) {
-        self.challengeID = challengeID
-        self.keyID = keyID
-        self.attestation = attestation
-    }
-}
-
 public struct Pizzeria: Codable, Sendable, Identifiable {
     public struct Photo: Codable, Sendable, Identifiable {
         public var id: String

@@ -31,7 +31,6 @@ public func configure(_ app: Application) async throws {
 
     app.middleware.use(FileMiddleware(publicDirectory: "Data/public"))
     app.middleware.use(SecretMiddleware())
-    app.middleware.use(AttestationMiddleware())
     try addRoutes(app)
 }
 

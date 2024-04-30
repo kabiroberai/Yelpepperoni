@@ -9,7 +9,6 @@ struct ClientToken {
     enum AuthLevel {
         case none
         case authenticated
-        case asserted
     }
 
     private let base: URL
@@ -40,11 +39,6 @@ struct ClientToken {
                 throw StringError("Not logged in")
             }
             request.setValue("Bearer \(token)", forHTTPHeaderField: "authorization")
-        }
-        if level == .asserted {
-            if let assertion = try? await AttestationManager.shared.generateAssertion() {
-                assertion.apply(to: &request)
-            }
         }
         try configure(&request)
         let (data, response) = try await urlSession.data(for: request)
@@ -82,34 +76,6 @@ struct ClientToken {
         return ClientToken(value: decoded.token)
     }
 
-    func getChallenge() async throws -> (id: String, data: Data) {
-        let (data, _) = try await makeRequest(to: "challenge") {
-            $0.httpMethod = "GET"
-        }
-        let decoded = try decoder.decode(ChallengeResponse.self, from: data)
-        guard let data = Data(base64Encoded: decoded.data) else {
-            throw StringError("Invalid challenge base64")
-        }
-        return (decoded.id, data)
-    }
-
-    func attestKey(
-        challengeID: String,
-        keyID: String,
-        attestation: Data
-    ) async throws {
-        let body = AttestKeyRequest(
-            challengeID: challengeID,
-            keyID: keyID,
-            attestation: attestation.base64EncodedString()
-        )
-        _ = try await makeRequest(to: "attestKey") {
-            $0.httpMethod = "PUT"
-            $0.setValue("application/json", forHTTPHeaderField: "content-type")
-            $0.httpBody = try encoder.encode(body)
-        }
-    }
-
     func getPizzerias() async throws -> [Pizzeria] {
         let (data, _) = try await makeRequest(to: "pizzerias") {
             $0.httpMethod = "GET"
@@ -130,16 +96,6 @@ struct ClientToken {
             $0.httpMethod = "GET"
         }
         return try decoder.decode([Discount].self, from: data)
-    }
-}
-
-extension APIClient: PizzaDetector {
-    func detectPizza(image: Data) async throws -> Bool {
-        let (data, _) = try await makeRequest(to: "detectPizza", level: .asserted) {
-            $0.httpMethod = "POST"
-            $0.httpBody = image
-        }
-        return try decoder.decode(Bool.self, from: data)
     }
 }
 

@@ -75,7 +75,24 @@ func addAuthedRoutes(_ routes: any RoutesBuilder) throws {
         return id
     }
 
+    routes.post("unlockPro") { req async throws in
+        guard let buffer = req.body.data else {
+            throw Abort(.badRequest, reason: "Missing receipt")
+        }
+        let jws = buffer.withUnsafeReadableBytes { String(decoding: $0, as: UTF8.self) }
+        do {
+            try await ReceiptValidator.validateReceipt(jws)
+        } catch {
+            throw Abort(.badRequest, reason: "Invalid receipt")
+        }
+        let user = try await req.user()
+        user.isPro = Date()
+        try await user.update(on: req.db)
+        return Response(status: .noContent)
+    }
+
     routes.get("discounts") { req async throws in
+        #warning("TODO: (2) check user.isPro")
         return Discount.all
     }
 }

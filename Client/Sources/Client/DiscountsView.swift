@@ -49,6 +49,7 @@ import Common
             for await result in StoreKit.Transaction.updates {
                 Task {
                     guard case let .verified(transaction) = result else { return }
+                    #warning("TODO: (1) unlock Pro")
                     await transaction.finish()
                     await updateStatus()
                 }

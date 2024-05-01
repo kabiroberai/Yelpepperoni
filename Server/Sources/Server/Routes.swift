@@ -92,7 +92,9 @@ func addAuthedRoutes(_ routes: any RoutesBuilder) throws {
     }
 
     routes.get("discounts") { req async throws in
-        #warning("TODO: (2) check user.isPro")
+        guard try await req.user().isPro != nil else {
+            throw Abort(.unauthorized)
+        }
         return Discount.all
     }
 }

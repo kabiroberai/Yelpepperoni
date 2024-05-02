@@ -20,6 +20,14 @@ Kudos to a handful of libraries that were used in this project:
 - [MacPaw/OpenAI](https://github.com/MacPaw/OpenAI)
 - [vapor/vapor](https://github.com/vapor/vapor)
 
+## Tools
+
+These tools were used during the demos:
+
+- [RapidAPI (Paw)](https://paw.cloud)
+- [Sim Genie](https://simgenie.app)
+- [Theos](https://theos.dev)
+
 ## Additional Resources
 
 There are some great WWDC sessions and other online resources I'd highly recommend checking out.

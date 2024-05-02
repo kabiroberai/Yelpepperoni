@@ -69,7 +69,6 @@ import Common
         let photosDirectory = URL.cachesDirectory.appending(path: "PizzeriaPhotos")
         try? files.createDirectory(at: photosDirectory, withIntermediateDirectories: true)
 
-        // NB: a better solution is to use a UUID as the filename
         let destination = photosDirectory.appending(path: photo.filename)
 
         try await APIClient.shared.downloadPizzeriaPhoto(photo, to: destination)

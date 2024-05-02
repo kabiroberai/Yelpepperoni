@@ -4,6 +4,10 @@ This is the repo corresponding to my DeepDishSwift talk **Is your app secure? Re
 
 The "main" branch of the repo corresponds to the version of the app with several vulnerabilities. See the `start/*` and `finish/*` branches for the various demo stages that fix these issues.
 
+## Slides
+
+See [Slides.pdf](/Slides.pdf).
+
 ## Thanks
 
 Kudos to a handful of libraries that were used in this project:

@@ -21,3 +21,4 @@ There are some great WWDC sessions and other online resources I'd highly recomme
 - [Apple: Mitigate fraud with App Attest and DeviceCheck](https://developer.apple.com/wwdc21/10244)
 - [Apple: Meet the App Store Server Library](https://developer.apple.com/wwdc23/10143)
 - [Jonathan Levin: macOS and iOS Internals](https://newosxbook.com)
+- [Prateek Gianchandani: Damn Vulnerable iOS App](https://github.com/prateek147/DVIA-v2)

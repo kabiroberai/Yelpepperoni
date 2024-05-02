@@ -17,8 +17,10 @@ Kudos to a handful of libraries that were used in this project:
 
 There are some great WWDC sessions and other online resources I'd highly recommend checking out.
 
-- [Apple: Secure your app: threat modeling and anti-patterns](https://developer.apple.com/wwdc20/10189)
-- [Apple: Mitigate fraud with App Attest and DeviceCheck](https://developer.apple.com/wwdc21/10244)
 - [Apple: Meet the App Store Server Library](https://developer.apple.com/wwdc23/10143)
+- [Apple: Mitigate fraud with App Attest and DeviceCheck](https://developer.apple.com/wwdc21/10244)
+- [Apple: Secure your app: threat modeling and anti-patterns](https://developer.apple.com/wwdc20/10189)
+- [Google: Project Zero](https://googleprojectzero.blogspot.com)
 - [Jonathan Levin: macOS and iOS Internals](https://newosxbook.com)
+- [Patrick Wardle: Objective-See Blog](https://objective-see.org/blog.html)
 - [Prateek Gianchandani: Damn Vulnerable iOS App](https://github.com/prateek147/DVIA-v2)

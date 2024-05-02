@@ -9,3 +9,5 @@ DerivedData/
 Server/Data
 !*.gitkeep
 Private
+Package.resolved
+.vscode

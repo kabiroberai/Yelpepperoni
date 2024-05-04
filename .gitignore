@@ -6,8 +6,11 @@ DerivedData/
 .swiftpm/configuration/registries.json
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
 .netrc
-Server/Data
 !*.gitkeep
-Private
 Package.resolved
 .vscode
+
+# domain specific
+Private
+/Server/Data
+/Common/Sources/Common/APIKeySecret.swift

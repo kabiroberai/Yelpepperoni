@@ -75,6 +75,9 @@ public protocol PizzaDetector {
 public enum APIKey {
     public static let header = "X-YPR-KEY"
 
+    // if you see a build error here, add a new file to declare
+    // a random value for `apiKeySecret`.
+    //
     // NB: in reality one would use a database to store many keys.
-    public static let value = "D5F48B79-7BFC-4222-9E4B-8639FA2943A5"
+    public static let value: String = apiKeySecret
 }

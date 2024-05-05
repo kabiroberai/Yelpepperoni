@@ -70,8 +70,17 @@ import Common
         try? files.createDirectory(at: photosDirectory, withIntermediateDirectories: true)
 
         let destination = photosDirectory.appending(path: photo.filename)
+        #warning("TODO: (1) check for containment")
 
         try await APIClient.shared.downloadPizzeriaPhoto(photo, to: destination)
         return destination
+    }
+}
+
+extension URL {
+    func isContained(in parent: URL) -> Bool {
+        let sanitizedParent = URL(filePath: parent.path(), directoryHint: .isDirectory).standardized
+        let sanitizedPath   = URL(filePath: path().replacingOccurrences(of: "//", with: "/")).standardized
+        return sanitizedPath.absoluteString.hasPrefix(sanitizedParent.absoluteString)
     }
 }

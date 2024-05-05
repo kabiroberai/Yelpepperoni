@@ -21,6 +21,7 @@ struct ClientToken {
 
     private init() {
         urlSession = URLSession(configuration: .ephemeral)
+        #warning("TODO: (2) defense in depth")
         let defaultEndpoint = "https://ypr.ober.ai:8080"
         let customEndpoint = try? String(contentsOf: URL.libraryDirectory.appending(component: "Endpoint.txt"))
         let endpoint = customEndpoint ?? defaultEndpoint

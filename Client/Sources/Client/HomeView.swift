@@ -37,6 +37,7 @@ import Common
                     } label: {
                         HStack {
                             PhotoView(photo: pizzeria.photos[0])
+                                .aspectRatio(contentMode: .fill)
                                 .frame(width: 44, height: 44)
                                 .clipShape(Circle())
 

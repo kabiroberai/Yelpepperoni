@@ -26,8 +26,13 @@ import Common
                         )
 
                     TabView {
-                        ForEach(pizzeria.photos, id: \.id) {
-                            PhotoView(photo: $0)
+                        ForEach(pizzeria.photos, id: \.id) { photo in
+                            Color.clear
+                                .overlay {
+                                    PhotoView(photo: photo)
+                                        .aspectRatio(contentMode: .fill)
+                                }
+                                .clipped()
                         }
                     }
                     .tabViewStyle(.page)

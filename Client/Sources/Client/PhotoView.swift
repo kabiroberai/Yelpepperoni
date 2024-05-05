@@ -70,7 +70,9 @@ import Common
         try? files.createDirectory(at: photosDirectory, withIntermediateDirectories: true)
 
         let destination = photosDirectory.appending(path: photo.filename)
-        #warning("TODO: (1) check for containment")
+        guard destination.isContained(in: photosDirectory) else {
+            throw StringError("Detected path traversal")
+        }
 
         try await APIClient.shared.downloadPizzeriaPhoto(photo, to: destination)
         return destination

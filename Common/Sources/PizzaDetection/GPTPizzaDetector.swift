@@ -9,10 +9,9 @@ import Common
     private let decoder = JSONDecoder()
 
     private init() {
-        // NB: Don't include API keys in public source code like this; it defeats the
-        // purpose of moving calls to the backend. Use some sort of secret manager.
-        // (for local testing, replace this with your own key.)
-        api = OpenAI(apiToken: "sk-proj-apikeygoeshere")
+        // if you see a build error here, add a new file to declare
+        // a random value for `openAISecret`.
+        api = OpenAI(apiToken: openAISecret)
     }
 
     public func detectPizza(image: Data) async throws -> Bool {

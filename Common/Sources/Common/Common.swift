@@ -76,8 +76,8 @@ public enum APIKey {
     public static let header = "X-YPR-KEY"
 
     // if you see a build error here, add a new file to declare
-    // a random value for `apiKeySecret`.
+    // a random value for `backendSecret`.
     //
     // NB: in reality one would use a database to store many keys.
-    public static let value: String = apiKeySecret
+    public static let value: String = backendSecret
 }

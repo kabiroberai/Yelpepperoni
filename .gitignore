@@ -13,4 +13,4 @@ Package.resolved
 # domain specific
 Private
 /Server/Data
-/Common/Sources/Common/APIKeySecret.swift
+/Common/Sources/Common/APIKeys.swift

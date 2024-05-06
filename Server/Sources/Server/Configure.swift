@@ -7,6 +7,9 @@ import NIOSSL
 
 // configures your application
 public func configure(_ app: Application) async throws {
+    let dataDir = URL(filePath: "Data")
+    try? FileManager.default.createDirectory(at: dataDir, withIntermediateDirectories: true)
+
     app.http.server.configuration.address = .hostname("127.0.0.1", port: 8001)
 
     try await configureTLS(app)
@@ -35,6 +38,14 @@ public func configure(_ app: Application) async throws {
 }
 
 func configureTLS(_ app: Application) async throws {
+    guard FileManager.default.fileExists(atPath: "Data/privkey.pem") else {
+        app.logger.log(level: .warning, "Could not find Data/privkey.pem. Running without TLS.")
+        return
+    }
+    guard FileManager.default.fileExists(atPath: "Data/fullchain.pem") else {
+        app.logger.log(level: .warning, "Could not find Data/fullchain.pem. Running without TLS.")
+        return
+    }
     let privKey = try NIOSSLPrivateKey(file: "Data/privkey.pem", format: .pem)
     let certs = try NIOSSLCertificate.fromPEMFile("Data/fullchain.pem")
     app.http.server.configuration.tlsConfiguration = .makeServerConfiguration(

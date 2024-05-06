@@ -107,8 +107,11 @@ actor PizzeriaStore {
 
     init() throws {
         url = URL(filePath: "Data/pizzerias.json")
-        let data = try Data(contentsOf: url)
-        pizzerias = try JSONDecoder().decode([Pizzeria].self, from: data)
+        if let data = try? Data(contentsOf: url) {
+            pizzerias = try JSONDecoder().decode([Pizzeria].self, from: data)
+        } else {
+            pizzerias = []
+        }
     }
 
     func add(pizzeria: Pizzeria) throws {
